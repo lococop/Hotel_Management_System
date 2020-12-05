@@ -8,6 +8,11 @@ import { DateRangePicker } from 'react-dates';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
 
 const styles = theme => ({
     hidden : {
@@ -28,9 +33,6 @@ const styles = theme => ({
     
 })
 
-const styles1 = {
-    minWidth : "135%",
-  }
 
 class R_Button extends React.Component{
 
@@ -47,6 +49,10 @@ class R_Button extends React.Component{
             startDate: null,
             endDate: null,
             pick_up : '',
+            number: 1,
+            pick_up1 : '',
+            open : false,
+            open1 : false,
         }
     }
 
@@ -66,6 +72,8 @@ class R_Button extends React.Component{
             guest_name : '',
             payment_info :  '',
             guest_phone_number : '',
+            open : false,
+            open1 : false,
         })
     }
     }
@@ -110,6 +118,10 @@ class R_Button extends React.Component{
             startDate: null,
             endDate: null,
             pick_up : '',
+            number: 1,
+            pick_up1 : '',
+            open : false,
+            open1 : false,
         })
     }
     }
@@ -132,14 +144,80 @@ class R_Button extends React.Component{
 
     }
 
+
+    handleSetnumber = () => {
+        this.setState({
+            number_of_members : this.state.number,
+            open : false,
+        })
+    }
+    handleInsertYes = () => {
+        this.setState({
+            pick_up : 'Y',
+            pick_up1 : this.state.pick_up,
+        });
+    };
+
+    handleInsertNo = () => {
+        this.setState({
+            pick_up : 'N',
+            pick_up1 : this.state.pick_up,
+        });
+    };
+
+    handleIncrease = () => {
+        if(this.state.number + 1 <= 10){
+        this.setState({
+            number: this.state.number +1
+          });
+        }
+    };
+
+    handleDecrease = () => {
+        if(this.state.number - 1 > 0){
+        this.setState({
+            number: this.state.number -1
+          });
+        }
+    };
+
+    handleClickOpen = () => {
+        this.setState({
+            open: true
+        })
+      }
+
+    handleClickClose = () => {
+        this.setState({
+            open: false
+        })
+      }
+
+    handleOpen = () => {
+        this.setState({
+            open1 : true
+        });
+    }
+
+    handleClose = () => {
+        this.setState({
+            open1 : false
+        })
+    }
+
     render(){
-        const { classes } = this.props;
+        const { number } = this.state;
+
+        const { pick_up1 } = this.state;
+
+        const { handleIncrease, handleDecrease } = this;
+
         return (
             <Card align="center">
                 <TextField label="고객 이메일" input type="text" name="guest_mail" value={this.state.guest_mail} onChange={this.handleValueChange}/><br/>
                 <TextField label="고객 성명" input type="text" name="guest_name" value={this.state.guest_name} onChange={this.handleValueChange}/><br/>
                 <TextField label="카드번호" input type="text" name="payment_info" value={this.state.payment_info} onChange={this.handleValueChange}/><br/>
-                <TextField label="고객 전화번호" input type="text" name="guest_phone_number" value={this.state.guest_phone_number} onChange={this.handleValueChange}/><br/>
+                <TextField label="고객 전화번호" input type="text" name="guest_phone_number" value={this.state.guest_phone_number} onChange={this.handleValueChange}/><br/><br/>
                 <Button  variant="contained" color="primary" onClick={this.handleFormSubmit}>개인 정보 입력</Button><br/><br/>
 
                 <DateRangePicker
@@ -150,13 +228,72 @@ class R_Button extends React.Component{
                   onDatesChange={({ startDate, endDate }) => this.setState({ startDate, endDate })} 
                   focusedInput={this.state.focusedInput} 
                   onFocusChange={focusedInput => this.setState({ focusedInput })}/><br/>
-                <TextField label="객실번호" input type="text" name="room_number" value={this.state.room_number} onChange={this.handleValueChange}/><br/>
-                <TextField label="숙박인원" input type="text" name="number_of_members" value={this.state.number_of_members} onChange={this.handleValueChange}/><br/>
-                <TextField label="픽업 여부" input type="text" name="pick_up" value={this.state.pick_up} onChange={this.handleValueChange}/><br/>
-                <Button variant="contained" color="primary" onClick={this.handleFormSubmit1}>예약 정보 입력</Button><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                <TextField label="객실번호" name="room_number" value={this.state.room_number} onChange={this.handleValueChange}/><br/><br/>
+                <TextField label="숙박인원" name="number_of_members" value={number} onChange={this.handleValueChange}/><br/>
+                <Button
+                    variant="contained" 
+                    color="primary" 
+                    onClick={this.handleClickOpen}>인원수
+                </Button>
+                <Dialog 
+                    open={this.state.open} 
+                    onClose={this.handleClickClose}>
+                    <DialogTitle>인원수 선택</DialogTitle>
+                    
+                    <DialogActions>
+                        <Button 
+                            onClick={handleDecrease}
+                            variant="contained"
+                            color="primary">-</Button>
+                            <b>{ number }</b>
+                        <Button 
+                            onClick={handleIncrease}
+                            variant="contained"
+                            color="primary">+</Button>
+                        <Button
+                            variant="outlined"
+                            color="primary" 
+                            onClick={this.handleSetnumber}>
+                        완료</Button>
+                    </DialogActions>
+                </Dialog><br/>
+                
+                <TextField label="픽업 여부" name="pick_up" value={ pick_up1 } onChange={this.handleValueChange}/><br/>
+                <Button variant="contained" color="primary" onClick={this.handleOpen}>
+                    픽업 여부 
+                </Button>
+                <Dialog
+                    open={this.state.open1}
+                    onClose={this.handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{"픽업 여부 선택"}</DialogTitle>
+                    <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        
+                    </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                    <Button variant="outlined" onClick={this.handleInsertYes} color="primary">
+                        예
+                    </Button>
+                    <Button variant="outlined" onClick={this.handleInsertNo} color="primary">
+                        아니오
+                    </Button>
+                    </DialogActions>
+                    <DialogActions>
+                    <Button  variant="contained" onClick={this.handleClose} color="primary">
+                        완료
+                    </Button>
+                    </DialogActions>
+                </Dialog><br/><br/>
+                <Button variant="contained" color="primary" onClick={this.handleFormSubmit1}>예약 정보 입력</Button><br/><br/><br/><br/><br/><br/><br/><br/>
             </Card>
+            
         )
     }
 }
+
 
 export default withStyles(styles)(R_Button);

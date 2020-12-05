@@ -1,4 +1,4 @@
-import Room_Show from './Room_Show'
+import Pickup_Show from '../components/Pickup_Show';
 import React, { Component } from 'react';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
@@ -14,6 +14,7 @@ import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import Card from '@material-ui/core/Card';
+import PickupAdd from '../components/PickupAdd';
 
 
 const styles = theme => ({
@@ -91,12 +92,12 @@ const styles = theme => ({
 
 });
 
-class Home_Room extends Component{
+class Pickup extends Component{
 
   constructor(props){
     super(props);
     this.state = {
-      rooms : '',
+        pickups : '',
       completed : 0,
       searchKeyword : ''
     }
@@ -104,24 +105,24 @@ class Home_Room extends Component{
 
   stateRefresh = () => {
     this.setState({
-        rooms : '',
+        pickups : '',
       completed : 0,
       searchKeyword : ''
     });
     this.callApi()
-      .then(res => this.setState({rooms : res}))
+      .then(res => this.setState({pickups : res}))
       .catch(err => console.log(err));
   }
 
   componentDidMount(){
     this.timer = setInterval(this.progress, 20);
     this.callApi()
-      .then(res => this.setState({rooms : res}))
+      .then(res => this.setState({pickups : res}))
       .catch(err => console.log(err));
   }
 
   callApi = async () => {
-    const response = await fetch('/api/rooms');
+    const response = await fetch('/api/pickups');
     const body = await response.json();
     return body;
   }
@@ -140,29 +141,32 @@ class Home_Room extends Component{
   render(){
     const filteredComponents = (data) => {
       data = data.filter((c) => {
-        return c.room_number.indexOf(this.state.searchKeyword) > -1;
+        return c.staff_id.indexOf(this.state.searchKeyword) > -1;
       });
       return data.map((c) => {
-        return <Room_Show stateRefresh={this.stateRefresh} key={c.room_number} room_number={c.room_number} room_price={c.room_price}
-        room_capacity={c.room_capacity} room_bed={c.room_bed} room_view={c.room_view} room_smoking={c.room_smoking}/>
+        return <Pickup_Show stateRefresh={this.stateRefresh} key={c.reserve_number} reserve_number={c.reserve_number} staff_id={c.staff_id} arrive_time={c.arrive_time}
+        pickup_spot={c.pickup_spot} persons={c.persons} />
       });
     }
     const { classes } = this.props;
-    const cellList = ["객실번호", "객실 가격", "수용인원", "침대유형", "뷰", "흡연여부"];
+    const cellList = ["예약번호", "담당직원", "픽업시간", "픽업장소", "픽업인원", "설정"];
     return (
         <Card>
         <div className={classes.root}>
           <AppBar position="static" color="s">
             <Toolbar>
               <Typography className={classes.title} variant="h6" noWrap>
-                객실 목록
+                픽업 목록
               </Typography>
+              <div className={classes.menu}>
+                <PickupAdd stateRefresh={this.stateRefresh}/>
+              </div>
               <div className={classes.search}>
                 <div className={classes.searchIcon}>
                   <SearchIcon/>
                 </div>
                 <InputBase
-                  placeholder="객실검색"
+                  placeholder="픽업정보 검색"
                   classes={{
                     root: classes.inputRoot,
                     input: classes.inputInput,
@@ -185,8 +189,8 @@ class Home_Room extends Component{
                 </TableRow>
               </TableHead>
               <TableBody>
-                { this.state.rooms ? 
-                filteredComponents(this.state.rooms) :  
+                { this.state.pickups ? 
+                filteredComponents(this.state.pickups) :  
                 <TableRow>
                   <TableCell colSpan="12" align="center">
                     <CircularProgress className={classes.progress} variant="determinate" value={this.state.completed}/>
@@ -202,4 +206,4 @@ class Home_Room extends Component{
   }
 }
 
-export default withStyles(styles)(Home_Room);
+export default withStyles(styles)(Pickup);

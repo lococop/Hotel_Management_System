@@ -144,12 +144,12 @@ class Room extends Component{
         return c.room_number.indexOf(this.state.searchKeyword) > -1;
       });
       return data.map((c) => {
-        return <Room_Show stateRefresh={this.stateRefresh} key={c.room_number} room_number={c.room_number} reserve_status={c.reserve_status} room_price={c.room_price}
+        return <Room_Show stateRefresh={this.stateRefresh} key={c.room_number} room_number={c.room_number} room_price={c.room_price}
         room_capacity={c.room_capacity} room_bed={c.room_bed} room_view={c.room_view} room_smoking={c.room_smoking} room_damaged={c.room_damaged}/>
       });
     }
     const { classes } = this.props;
-    const cellList = ["객실번호", "예약여부", "객실 가격", "수용인원", "침대유형", "뷰", "흡연여부", "손상여부"];
+    const cellList = ["객실번호", "객실 가격", "수용인원", "침대유형", "뷰", "흡연여부", "손상여부"];
     return (
         <Card>
         <div className={classes.root}>

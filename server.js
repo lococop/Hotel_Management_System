@@ -32,6 +32,38 @@ app.get('/api/reservations', (req, res) => {
     )
 });
 
+app.get('/api/pickups', (req, res) => {
+  connection.query(
+    "SELECT * FROM Pickup WHERE pickup_isDeleted = 0",
+    (err, rows, fields) => {
+      res.send(rows);
+    }
+  )
+});
+
+app.post('/api/pickups', upload.single(), (req, res) => {
+  let sql = 'INSERT INTO Pickup VALUES (?, ?, ?, ?, ?, 0)';
+  let reserve_number = req.body.reserve_number;
+  let staff_id = req.body.staff_id;
+  let arrive_time = req.body.arrive_time;
+  let pickup_spot = req.body.pickup_spot;
+  let persons = req.body.persons;
+  let params = [reserve_number, staff_id, arrive_time, pickup_spot, persons];
+  connection.query(sql, params,
+    (err, rows, fields) => {
+      res.send(rows);
+    });
+});
+
+app.delete('/api/pickups/:reserve_number', (req, res) => {
+  let sql = 'UPDATE Pickup SET pickup_isDeleted = 1 WHERE reserve_number = ?';
+  let params = [req.params.reserve_number];
+  connection.query(sql, params,
+    (err,rows,fields) => {
+      res.send(rows);
+    })
+})
+
 app.get('/api/facilitys', (req, res) => {
   connection.query(
     "SELECT * FROM Facility",

@@ -7,7 +7,6 @@ class Room_Show extends React.Component{
         return (
             <TableRow>
                 <TableCell>{this.props.room_number}</TableCell>
-                <TableCell>{this.props.reserve_status}</TableCell>
                 <TableCell>{this.props.room_price}</TableCell>
                 <TableCell>{this.props.room_capacity}</TableCell>
                 <TableCell>{this.props.room_bed}</TableCell>
