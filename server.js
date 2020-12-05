@@ -32,6 +32,48 @@ app.get('/api/reservations', (req, res) => {
     )
 });
 
+app.get('/api/parkings', (req, res) => {
+  connection.query(
+    "SELECT * FROM Parking WHERE park_isDeleted = 0",
+    (err, rows, fields) => {
+      res.send(rows);
+    }
+  )
+});
+
+app.post('/api/parkings', upload.single(), (req, res) => {
+  let sql = 'INSERT INTO Parking VALUES (?, ?, ?, ?, NOW(), "0000-00-00", 0)';
+  let car_number = req.body.car_number;
+  let staff_id = req.body.staff_id;
+  let guest_mail = req.body.guest_mail;
+  let car_model = req.body.car_model;
+  let park_in = req.body.park_in;
+  let params = [car_number, staff_id, guest_mail, car_model, park_in];
+  connection.query(sql, params,
+    (err, rows, fields) => {
+      res.send(rows);
+    });
+});
+
+app.put('/api/parkings', upload.single(), (req, res) => {
+  let sql = 'UPDATE Parking SET park_out = NOW() WHERE car_number = ?';
+  let car_number = req.body.car_number;
+  let params = [car_number];
+  connection.query(sql, params,
+    (err, rows, fields) => {
+      res.send(rows);
+    });
+});
+
+app.delete('/api/parkings/:car_number', (req, res) => {
+  let sql = 'UPDATE Parking SET park_isDeleted = 1 WHERE car_number = ?';
+  let params = [req.params.car_number];
+  connection.query(sql, params,
+    (err,rows,fields) => {
+      res.send(rows);
+    })
+})
+
 app.get('/api/pickups', (req, res) => {
   connection.query(
     "SELECT * FROM Pickup WHERE pickup_isDeleted = 0",
