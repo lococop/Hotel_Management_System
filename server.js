@@ -32,6 +32,42 @@ app.get('/api/reservations', (req, res) => {
     )
 });
 
+app.get('/api/items', (req, res) => {
+  connection.query(
+    "SELECT * FROM Item",
+    (err, rows, fields) => {
+      res.send(rows);
+    }
+  )
+});
+
+app.post('/api/items', upload.single(), (req, res) => {
+  let sql = 'INSERT INTO Item VALUES (?, ?, ?, ?, ?, ?, ?)';
+  let item_name = req.body.item_name;
+  let staff_id = req.body.staff_id;
+  let item_area = req.body.item_area;
+  let item_stock = req.body.item_stock;
+  let item_need = req.body.item_need;
+  let item_budget = req.body.item_budget;
+  let order_status = req.body.order_status;
+  let params = [item_name, staff_id, item_area, item_stock, item_need, item_budget, order_status];
+  connection.query(sql, params,
+    (err, rows, fields) => {
+      res.send(rows);
+    });
+});
+
+app.put('/api/items', upload.single(), (req, res) => {
+  let sql = 'UPDATE Item SET ' + req.body.revise_element + ' = ? WHERE item_name = ?';
+  let revise_value = req.body.revise_value;
+  let item_name = req.body.item_name;
+  let params = [revise_value, item_name];
+  connection.query(sql, params,
+    (err, rows, fields) => {
+      res.send(rows);
+    });
+});
+
 app.get('/api/parkings', (req, res) => {
   connection.query(
     "SELECT * FROM Parking WHERE park_isDeleted = 0",

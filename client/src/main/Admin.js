@@ -14,6 +14,7 @@ import Service from './Service';
 import Facility from './Facility';
 import Pickup from './Pickup';
 import Parking from './Parking';
+import Item from './Item';
 
 const roots = {
   root : {
@@ -98,7 +99,7 @@ function Admin({ user , props}) {
         </Link>
         </div>
         <div style={styles}>
-        <Link to="/staff">
+        <Link to="/item">
           <Button variant="contained" color="default">재고 관리</Button>
         </Link>
         </div>
@@ -112,7 +113,8 @@ function Admin({ user , props}) {
     </div>
       <main>
         <Switch>
-        <Route exact path="/parking" component={Parking} />
+          <Route exact path="/item" component={Item} />
+          <Route exact path="/parking" component={Parking} />
           <Route exact path="/pickup" component={Pickup} />
           <Route exact path="/facility" component={Facility} />
           <Route exact path="/service" component={Service} />
