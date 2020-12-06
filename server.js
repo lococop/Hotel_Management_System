@@ -216,7 +216,7 @@ app.delete('/api/services/:guest_mail', (req, res) => {
 
 app.get('/api/home_rooms', (req, res) => {
   connection.query(
-    "SELECT * FROM Room WHERE room_number = '101호' or room_number = '302호' or room_number = '402호' or room_number = '405호'",
+    "SELECT * FROM Room WHERE room_number = '101호' or room_number = '304호' or room_number = '402호' or room_number = '405호'",
     (err, rows, fields) => {
       res.send(rows);
     }
@@ -264,7 +264,7 @@ app.post('/api/guests', upload.single(), (req, res) => {
 });
 
 app.put('/api/guests', upload.single(), (req, res) => {
-  let sql = 'INSERT INTO Guest VALUES (?, ?, ?, ?, 0, 0)';
+  let sql = 'INSERT INTO Guest VALUES (?, ?, ?, ?, "400,000", 0)';
   let guest_mail = req.body.guest_mail;
   let guest_name = req.body.guest_name;
   let payment_info = req.body.payment_info;
