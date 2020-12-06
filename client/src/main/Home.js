@@ -26,7 +26,7 @@ const styles1 = {
 }
 
 const styles2 = {
-  width : '5%',
+  width : '7%',
   marginLeft : 1100,
   display : 'flex',
   justifyContent : 'center'
@@ -60,12 +60,12 @@ class Home extends React.Component{
                 </Typography>
                 <div style={styles2}>
                 <Link to="/reserve">
-                <Button variant="contained" color="default">예약하기</Button>
+                <Button variant="contained" color="default">조건 설정하기</Button>
                 </Link>
                 </div>
                 <div style={styles}>
                 <Link to="/home_room">
-                <Button variant="contained" color="default">객실정보 확인하기</Button>
+                <Button variant="contained" color="default">객실 검색하기</Button>
                 </Link>
                 </div>
             </Toolbar>
@@ -77,7 +77,9 @@ class Home extends React.Component{
                 <Route exact path="/home_room" component={Home_Room} />
                 </Switch>
             </main>
+            
             </Router>
+            
         </Card>
         )
     }

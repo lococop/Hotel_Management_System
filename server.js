@@ -214,6 +214,15 @@ app.delete('/api/services/:guest_mail', (req, res) => {
     })
 })
 
+app.get('/api/home_rooms', (req, res) => {
+  connection.query(
+    "SELECT * FROM Room WHERE room_number = '101호' or room_number = '302호' or room_number = '402호' or room_number = '405호'",
+    (err, rows, fields) => {
+      res.send(rows);
+    }
+  )
+});
+
 app.get('/api/rooms', (req, res) => {
   connection.query(
     "SELECT * FROM Room",

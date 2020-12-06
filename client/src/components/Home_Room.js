@@ -1,4 +1,4 @@
-import Room_Show from './Room_Show'
+import Home_Room_Show from './Home_Room_Show'
 import React, { Component } from 'react';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
@@ -121,7 +121,7 @@ class Home_Room extends Component{
   }
 
   callApi = async () => {
-    const response = await fetch('/api/rooms');
+    const response = await fetch('/api/home_rooms');
     const body = await response.json();
     return body;
   }
@@ -143,12 +143,12 @@ class Home_Room extends Component{
         return c.room_number.indexOf(this.state.searchKeyword) > -1;
       });
       return data.map((c) => {
-        return <Room_Show stateRefresh={this.stateRefresh} key={c.room_number} room_number={c.room_number} room_price={c.room_price}
+        return <Home_Room_Show stateRefresh={this.stateRefresh} key={c.room_number} room_number={c.room_number} room_price={c.room_price}
         room_capacity={c.room_capacity} room_bed={c.room_bed} room_view={c.room_view} room_smoking={c.room_smoking}/>
       });
     }
     const { classes } = this.props;
-    const cellList = ["객실번호", "객실 가격", "수용인원", "침대유형", "뷰", "흡연여부"];
+    const cellList = ["객실번호", "객실 가격", "수용인원", "침대유형", "뷰", "흡연여부", "", ""];
     return (
         <Card>
         <div className={classes.root}>

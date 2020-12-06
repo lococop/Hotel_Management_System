@@ -11,6 +11,8 @@ import 'react-dates/lib/css/_datepicker.css';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { Link, Route, Switch, BrowserRouter as Router } from 'react-router-dom';
+import Home_Room from './Home_Room';
 
 
 const styles = theme => ({
@@ -47,10 +49,9 @@ class R_Button extends React.Component{
             guest_phone_number : '',
             guest_mail_R : '',
             room_number : '',
-            number_of_members : '',
+            number_of_members : 1,
             startDate: null,
             endDate: null,
-            number: 1,
             open : false,
             open1 : false,
         }
@@ -114,10 +115,9 @@ class R_Button extends React.Component{
         this.setState({
             guest_mail_R : '',
             room_number : '',
-            number_of_members : '',
+            number_of_members : 1,
             startDate: null,
             endDate: null,
-            number: 1,
             open : false,
             open1 : false,
         })
@@ -144,23 +144,23 @@ class R_Button extends React.Component{
 
     handleSetnumber = () => {
         this.setState({
-            number_of_members : this.state.number,
+            number_of_members : this.state.number_of_members,
             open : false,
         })
     }
 
     handleIncrease = () => {
-        if(this.state.number + 1 <= 10){
+        if(this.state.number_of_members + 1 <= 10){
         this.setState({
-            number: this.state.number +1
+            number_of_members: this.state.number_of_members +1
           });
         }
     };
 
     handleDecrease = () => {
-        if(this.state.number - 1 > 0){
+        if(this.state.number_of_members - 1 > 0){
         this.setState({
-            number: this.state.number -1
+            number_of_members: this.state.number_of_members -1
           });
         }
     };
@@ -190,12 +190,13 @@ class R_Button extends React.Component{
     }
 
     render(){
-        const { number } = this.state;
+        const { number_of_members } = this.state;
 
         const { handleIncrease, handleDecrease } = this;
 
         return (
             <Card  align="center">
+                <br/><br/><br/>
                 <DateRangePicker 
                   startDate={this.state.startDate} 
                   startDateId="your_unique_start_date_id" 
@@ -204,9 +205,8 @@ class R_Button extends React.Component{
                   onDatesChange={({ startDate, endDate }) => this.setState({ startDate, endDate })} 
                   focusedInput={this.state.focusedInput} 
                   onFocusChange={focusedInput => this.setState({ focusedInput })}/><br/><br/>
-                <TextField label="숙박인원" name="number_of_members" value={number} onChange={this.handleValueChange}/><br/>
                 <Button
-                    variant="contained" 
+                    variant="outlined" 
                     color="primary" 
                     onClick={this.handleClickOpen}>인원수
                 </Button>
@@ -220,7 +220,7 @@ class R_Button extends React.Component{
                             onClick={handleDecrease}
                             variant="contained"
                             color="primary">-</Button>
-                            <b>{ number }</b>
+                            <b>{ number_of_members }</b>
                         <Button 
                             onClick={handleIncrease}
                             variant="contained"
@@ -231,8 +231,7 @@ class R_Button extends React.Component{
                             onClick={this.handleSetnumber}>
                         완료</Button>
                     </DialogActions>
-                </Dialog><br/><br/>
-                <Button variant="contained" color="primary" onClick={this.handleFormSubmit1}>검색하기</Button><br/><br/><br/><br/><br/><br/><br/><br/>
+                </Dialog><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
             </Card>
             
         )

@@ -40,7 +40,7 @@ const styles2 = {
 }
 
 const styles = {
-  width : '7.2%',
+  width : '7.25%',
   //marginBottom : 15,
   display : 'flex',
   justifyContent : 'center'
