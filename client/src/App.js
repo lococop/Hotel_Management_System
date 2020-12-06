@@ -147,11 +147,6 @@ class App extends Component{
             </Link>
           </MenuItem>
           <MenuItem onClick={this.handleDrawerToggle}>
-            <Link component={RouterLink} to="/hotel">
-              호텔 소개
-            </Link>
-          </MenuItem>
-          <MenuItem onClick={this.handleDrawerToggle}>
             <Link component={RouterLink} to="/facilites">
               시설 소개
             </Link>
@@ -169,6 +164,11 @@ class App extends Component{
           <MenuItem onClick={this.handleDrawerToggle}>
             <Link component={RouterLink} to="/restaurants">
               호텔 내 식당
+            </Link>
+          </MenuItem>
+          <MenuItem onClick={this.handleDrawerToggle}>
+            <Link component={RouterLink} to="/reserve_room">
+              예약하기
             </Link>
           </MenuItem>
           <br/>
@@ -207,8 +207,8 @@ class App extends Component{
           </MenuItem>
         </Drawer>
         <div>
-          <Route exact path="/" component={Home}/>
-          <Route exact path="/hotel" component={Hotel}/>
+          <Route exact path="/" component={Hotel}/>
+          <Route exact path="/reserve_room" component={Home}/>
           <Route exact path="/facilites" component={Facilities}/>
           <Route exact path="/room_introduce" component={Room_Introduce}/>
           <Route exact path="/tour" component={Tour}/>

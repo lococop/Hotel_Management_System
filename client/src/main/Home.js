@@ -56,7 +56,7 @@ class Home extends React.Component{
             <AppBar style={styles1} position="static" color="default">
             <Toolbar >
                 <Typography flexGrow = "1" display = "none" variant="h6" noWrap>
-                    배에힘꽉조 호텔
+                    객실 예약하기
                 </Typography>
                 <div style={styles2}>
                 <Link to="/reserve">
