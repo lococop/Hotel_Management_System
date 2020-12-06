@@ -32,6 +32,49 @@ app.get('/api/reservations', (req, res) => {
     )
 });
 
+app.get('/api/cleanups', (req, res) => {
+  connection.query(
+    "SELECT * FROM Cleanup WHERE clean_isDeleted = 0",
+    (err, rows, fields) => {
+      res.send(rows);
+    }
+  )
+});
+
+app.post('/api/cleanups', upload.single(), (req, res) => {
+  let sql = 'INSERT INTO Cleanup VALUES (?, ?, ?, ?, ?, 0)';
+  let clean_area = req.body.clean_area;
+  let staff_id = req.body.staff_id;
+  let clean_status = req.body.clean_status;
+  let clean_members = req.body.clean_members;
+  let clean_time = req.body.clean_time;
+  let params = [clean_area, staff_id, clean_status, clean_members, clean_time];
+  connection.query(sql, params,
+    (err, rows, fields) => {
+      res.send(rows);
+    });
+});
+
+app.put('/api/cleanups', upload.single(), (req, res) => {
+  let sql = 'UPDATE Cleanup SET ' + req.body.revise_element + ' = ? WHERE clean_area = ?';
+  let revise_value = req.body.revise_value;
+  let clean_area = req.body.clean_area;
+  let params = [revise_value, clean_area];
+  connection.query(sql, params,
+    (err, rows, fields) => {
+      res.send(rows);
+    });
+});
+
+app.delete('/api/cleanups/:clean_area', (req, res) => {
+  let sql = 'UPDATE Cleanup SET clean_isDeleted = 1 WHERE clean_area = ?';
+  let params = [req.params.clean_area];
+  connection.query(sql, params,
+    (err,rows,fields) => {
+      res.send(rows);
+    })
+})
+
 app.get('/api/items', (req, res) => {
   connection.query(
     "SELECT * FROM Item",
