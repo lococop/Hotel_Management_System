@@ -77,7 +77,7 @@ app.delete('/api/cleanups/:clean_area', (req, res) => {
 
 app.get('/api/items', (req, res) => {
   connection.query(
-    "SELECT * FROM Item",
+    "SELECT * FROM Item WHERE item_isDeleted = 0",
     (err, rows, fields) => {
       res.send(rows);
     }
@@ -110,6 +110,15 @@ app.put('/api/items', upload.single(), (req, res) => {
       res.send(rows);
     });
 });
+
+app.delete('/api/items/:item_name', (req, res) => {
+  let sql = 'UPDATE Item SET item_isDeleted = 1 WHERE item_name = ?';
+  let params = [req.params.item_name];
+  connection.query(sql, params,
+    (err,rows,fields) => {
+      res.send(rows);
+    })
+})
 
 app.get('/api/parkings', (req, res) => {
   connection.query(

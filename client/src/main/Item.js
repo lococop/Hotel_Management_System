@@ -150,7 +150,7 @@ class Item extends Component{
       });
     }
     const { classes } = this.props;
-    const cellList = ["물품명", "담당직원", "물품위치", "현재개수", "필요개수", "물품예산", "발주여부"];
+    const cellList = ["물품명", "담당직원", "물품위치", "현재개수", "필요개수", "물품예산", "발주여부", "설정"];
     return (
         <Card>
         <div className={classes.root}>
