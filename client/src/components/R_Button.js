@@ -33,6 +33,9 @@ const styles = theme => ({
     
 })
 
+const styles1 = {
+    marginLeft: 500,
+}
 
 class R_Button extends React.Component{
 
@@ -213,22 +216,15 @@ class R_Button extends React.Component{
         const { handleIncrease, handleDecrease } = this;
 
         return (
-            <Card align="center">
-                <TextField label="고객 이메일" input type="text" name="guest_mail" value={this.state.guest_mail} onChange={this.handleValueChange}/><br/>
-                <TextField label="고객 성명" input type="text" name="guest_name" value={this.state.guest_name} onChange={this.handleValueChange}/><br/>
-                <TextField label="카드번호" input type="text" name="payment_info" value={this.state.payment_info} onChange={this.handleValueChange}/><br/>
-                <TextField label="고객 전화번호" input type="text" name="guest_phone_number" value={this.state.guest_phone_number} onChange={this.handleValueChange}/><br/><br/>
-                <Button  variant="contained" color="primary" onClick={this.handleFormSubmit}>개인 정보 입력</Button><br/><br/>
-
-                <DateRangePicker
+            <Card  align="center">
+                <DateRangePicker 
                   startDate={this.state.startDate} 
                   startDateId="your_unique_start_date_id" 
                   endDate={this.state.endDate} 
                   endDateId="your_unique_end_date_id" 
                   onDatesChange={({ startDate, endDate }) => this.setState({ startDate, endDate })} 
                   focusedInput={this.state.focusedInput} 
-                  onFocusChange={focusedInput => this.setState({ focusedInput })}/><br/>
-                <TextField label="객실번호" name="room_number" value={this.state.room_number} onChange={this.handleValueChange}/><br/><br/>
+                  onFocusChange={focusedInput => this.setState({ focusedInput })}/><br/><br/>
                 <TextField label="숙박인원" name="number_of_members" value={number} onChange={this.handleValueChange}/><br/>
                 <Button
                     variant="contained" 

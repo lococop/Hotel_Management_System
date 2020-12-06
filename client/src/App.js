@@ -26,7 +26,7 @@ import Room_Introduce from './main/Room_Introduce';
 
 const styles = theme => ({
   root : {
-    width : '110%',
+    width : '100%',
     flexGrow: 1,
     minWidth : 1080
   },
@@ -137,7 +137,7 @@ class App extends Component{
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            호텔 예약관리 시스템
+            Hanyang Hotel
           </Typography>
         </Toolbar>
         <Drawer open={this.state.toggle}>

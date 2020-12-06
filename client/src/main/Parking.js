@@ -20,7 +20,7 @@ import Parking_Park_out from '../components/Parking_Park_out';
 
 const styles = theme => ({
   root : {
-    width : '92%',
+    width : '100%',
     flexGrow: 1,
     minWidth : 1080
   },

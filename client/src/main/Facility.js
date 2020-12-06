@@ -19,7 +19,7 @@ import Facility_Revise from '../components/Facility_Revise';
 
 const styles = theme => ({
   root : {
-    width : '92%',
+    width : '100%',
     flexGrow: 1,
     minWidth : 1080
   },

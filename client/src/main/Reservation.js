@@ -20,7 +20,7 @@ import R_Revise from '../components/R_Revise';
 
 const styles = theme => ({
   root : {
-    width : '92%',
+    width : '100%',
     flexGrow: 1,
     minWidth : 1080
   },

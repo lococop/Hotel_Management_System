@@ -20,7 +20,7 @@ import Item_Revise from '../components/Item_Revise';
 
 const styles = theme => ({
   root : {
-    width : '92%',
+    width : '100%',
     flexGrow: 1,
     minWidth : 1080
   },

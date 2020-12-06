@@ -151,7 +151,7 @@ class Staff extends Component{
       });
     }
     const { classes } = this.props;
-    const cellList = ["직원 이미지", "직원 아이디", "직원 이름", "담당부서", "담당구역", "직원 주소", "직원 이메일", "직원 전화번호", "봉급", "계좌번호", "특이사항", "설정"];
+    const cellList = ["이미지", "아이디", "이름", "부서", "구역", "주소", "이메일", "전화번호", "봉급", "계좌번호", "특이사항", "설정"];
     return (
         <Card>
         <div className={classes.root}>
