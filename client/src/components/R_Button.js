@@ -11,8 +11,7 @@ import 'react-dates/lib/css/_datepicker.css';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
+
 
 const styles = theme => ({
     hidden : {
@@ -51,9 +50,7 @@ class R_Button extends React.Component{
             number_of_members : '',
             startDate: null,
             endDate: null,
-            pick_up : '',
             number: 1,
-            pick_up1 : '',
             open : false,
             open1 : false,
         }
@@ -105,7 +102,7 @@ class R_Button extends React.Component{
     }
 
     handleFormSubmit1 = (e) => {
-        if(this.state.room_number==='' || this.state.number_of_members==='' || this.state.startDate===null || this.state.endDate===null || this.state.pick_up===''){
+        if(this.state.room_number==='' || this.state.number_of_members==='' || this.state.startDate===null || this.state.endDate===null){
             alert("예약정보를 모두 입력해주세요.");
         }
         else{
@@ -120,9 +117,7 @@ class R_Button extends React.Component{
             number_of_members : '',
             startDate: null,
             endDate: null,
-            pick_up : '',
             number: 1,
-            pick_up1 : '',
             open : false,
             open1 : false,
         })
@@ -137,7 +132,6 @@ class R_Button extends React.Component{
         formData.append('number_of_members', this.state.number_of_members);
         formData.append('startDate', this.state.startDate.format('YYYY-MM-DD'));
         formData.append('endDate', this.state.endDate.format('YYYY-MM-DD'));
-        formData.append('pick_up', this.state.pick_up);
         const config = {
             headers : {
                 'content-type' : 'multipart/form-data'
@@ -154,19 +148,6 @@ class R_Button extends React.Component{
             open : false,
         })
     }
-    handleInsertYes = () => {
-        this.setState({
-            pick_up : 'Y',
-            pick_up1 : this.state.pick_up,
-        });
-    };
-
-    handleInsertNo = () => {
-        this.setState({
-            pick_up : 'N',
-            pick_up1 : this.state.pick_up,
-        });
-    };
 
     handleIncrease = () => {
         if(this.state.number + 1 <= 10){
@@ -211,8 +192,6 @@ class R_Button extends React.Component{
     render(){
         const { number } = this.state;
 
-        const { pick_up1 } = this.state;
-
         const { handleIncrease, handleDecrease } = this;
 
         return (
@@ -252,39 +231,8 @@ class R_Button extends React.Component{
                             onClick={this.handleSetnumber}>
                         완료</Button>
                     </DialogActions>
-                </Dialog><br/>
-                
-                <TextField label="픽업 여부" name="pick_up" value={ pick_up1 } onChange={this.handleValueChange}/><br/>
-                <Button variant="contained" color="primary" onClick={this.handleOpen}>
-                    픽업 여부 
-                </Button>
-                <Dialog
-                    open={this.state.open1}
-                    onClose={this.handleClose}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                >
-                    <DialogTitle id="alert-dialog-title">{"픽업 여부 선택"}</DialogTitle>
-                    <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        
-                    </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                    <Button variant="outlined" onClick={this.handleInsertYes} color="primary">
-                        예
-                    </Button>
-                    <Button variant="outlined" onClick={this.handleInsertNo} color="primary">
-                        아니오
-                    </Button>
-                    </DialogActions>
-                    <DialogActions>
-                    <Button  variant="contained" onClick={this.handleClose} color="primary">
-                        완료
-                    </Button>
-                    </DialogActions>
                 </Dialog><br/><br/>
-                <Button variant="contained" color="primary" onClick={this.handleFormSubmit1}>예약 정보 입력</Button><br/><br/><br/><br/><br/><br/><br/><br/>
+                <Button variant="contained" color="primary" onClick={this.handleFormSubmit1}>검색하기</Button><br/><br/><br/><br/><br/><br/><br/><br/>
             </Card>
             
         )

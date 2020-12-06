@@ -12,7 +12,6 @@ import Guest from './Guest';
 import Room from './Room';
 import Service from './Service';
 import Facility from './Facility';
-import Pickup from './Pickup';
 import Parking from './Parking';
 import Item from './Item';
 import Cleanup from './Cleanup';
@@ -35,7 +34,7 @@ const styles1 = {
 
 const styles2 = {
   width : '5%',
-  marginLeft : 120,
+  marginLeft : 300,
   display : 'flex',
   justifyContent : 'center'
 }
@@ -90,11 +89,6 @@ function Admin({ user , props}) {
         </Link>
         </div>
         <div style={styles}>
-        <Link to="/pickup">
-          <Button variant="contained" color="default">픽업 관리</Button>
-        </Link>
-        </div>
-        <div style={styles}>
         <Link to="/parking">
           <Button variant="contained" color="default">주차 관리</Button>
         </Link>
@@ -117,7 +111,6 @@ function Admin({ user , props}) {
           <Route exact path="/cleanup" component={Cleanup} />
           <Route exact path="/item" component={Item} />
           <Route exact path="/parking" component={Parking} />
-          <Route exact path="/pickup" component={Pickup} />
           <Route exact path="/facility" component={Facility} />
           <Route exact path="/service" component={Service} />
           <Route exact path="/room" component={Room} />

@@ -60,9 +60,6 @@ class R_Revise extends React.Component{
         else if(this.state.revise_element === "결제여부"){
             this.state.revise_element = "payment_status";
         }
-        else if(this.state.revise_element === "픽업여부"){
-            this.state.revise_element = "pick_up";
-        }
         else if(this.state.revise_element === "취소여부"){
             this.state.revise_element = "cancel_status";
         }
