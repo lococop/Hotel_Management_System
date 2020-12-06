@@ -143,11 +143,11 @@ class Reservation extends Component{
       return data.map((c) => {
         return <R_Show stateRefresh={this.stateRefresh} key={c.reserve_number} reserve_number={c.reserve_number} guest_mail={c.guest_mail} guest_name={c.guest_name}
         room_number={c.room_number} number_of_members={c.number_of_members} check_in={c.check_in} check_out={c.check_out} real_check_in={c.real_check_in}
-        real_check_out={c.real_check_out} payment_status={c.payment_status} cancel_status={c.cancel_status}/>
+        real_check_out={c.real_check_out} cancel_status={c.cancel_status}/>
       });
     }
     const { classes } = this.props;
-    const cellList = ["예약번호", "고객 이메일", "고객성명", "객실번호", "숙박인원", "예정 체크인", "예정 체크아웃", "실제 체크인", "실제 체크아웃", "결제여부", "취소여부", "설정"];
+    const cellList = ["예약번호", "고객 이메일", "고객성명", "객실번호", "숙박인원", "예정 체크인", "예정 체크아웃", "실제 체크인", "실제 체크아웃", "취소여부", "설정"];
     return (
       <Card>
         <div className={classes.root}>

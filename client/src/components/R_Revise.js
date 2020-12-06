@@ -57,9 +57,6 @@ class R_Revise extends React.Component{
         else if(this.state.revise_element === "숙박인원"){
             this.state.revise_element = "number_of_members";
         }
-        else if(this.state.revise_element === "결제여부"){
-            this.state.revise_element = "payment_status";
-        }
         else if(this.state.revise_element === "취소여부"){
             this.state.revise_element = "cancel_status";
         }

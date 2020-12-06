@@ -25,7 +25,7 @@ const upload = multer({dest : './upload'});
 
 app.get('/api/reservations', (req, res) => {
     connection.query(
-      "SELECT reserve_number, guest_mail, guest_name, room_number, number_of_members, check_in, check_out, real_check_in, real_check_out, payment_status, cancel_status FROM Reservation NATURAL JOIN Guest WHERE isDeleted = 0",
+      "SELECT reserve_number, guest_mail, guest_name, room_number, number_of_members, check_in, check_out, real_check_in, real_check_out, cancel_status FROM Reservation NATURAL JOIN Guest WHERE isDeleted = 0",
       (err, rows, fields) => {
         res.send(rows);
       }
@@ -370,7 +370,7 @@ app.patch('/api/reservations', upload.single(), (req, res) => {
 });
 
 app.put('/api/reservations', upload.single(), (req, res) => {
-  let sql = 'INSERT INTO Reservation VALUES (null, ?, ?, ?, ?, ?, "0000-00-00", "0000-00-00", "N", "N", 0)';
+  let sql = 'INSERT INTO Reservation VALUES (null, ?, ?, ?, ?, ?, "0000-00-00", "0000-00-00", "N", 0)';
   let guest_mail_R = req.body.guest_mail_R;
   let room_number = req.body.room_number;
   let number_of_members = req.body.number_of_members;

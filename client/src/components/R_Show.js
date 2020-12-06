@@ -17,7 +17,6 @@ class R_Show extends React.Component{
                 <TableCell>{this.props.check_out}</TableCell>
                 <TableCell>{this.props.real_check_in}</TableCell>
                 <TableCell>{this.props.real_check_out}</TableCell>
-                <TableCell>{this.props.payment_status}</TableCell>
                 <TableCell>{this.props.cancel_status}</TableCell>
                 <TableCell><R_Delete stateRefresh={this.props.stateRefresh} reserve_number={this.props.reserve_number}/></TableCell>
             </TableRow>
