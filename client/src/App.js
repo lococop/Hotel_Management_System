@@ -149,12 +149,7 @@ class App extends Component{
           >
             <MenuIcon />
           </IconButton>
-          <Typography className={classes.title} variant="h6" noWrap>
-<<<<<<< HEAD
-            배에힘꽉조 호텔
-=======
-            Hanyang Hotel
->>>>>>> 3ba9bf64f545c0c5396e6d06f2ff73145c2bd9a9
+          <Typography className={classes.title} variant="h6" noWrap>      
           </Typography>
         </Toolbar>
         <Drawer open={this.state.toggle}>
