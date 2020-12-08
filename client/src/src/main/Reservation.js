@@ -1,4 +1,5 @@
-import Item_Show from '../components/Item_Show';
+import R_Show from '../components/R_Show'
+import Check_in from '../components/Check_in';
 import React, { Component } from 'react';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
@@ -14,8 +15,7 @@ import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import Card from '@material-ui/core/Card';
-import ItemAdd from '../components/ItemAdd';
-import Item_Revise from '../components/Item_Revise';
+import R_Revise from '../components/R_Revise';
 
 
 const styles = theme => ({
@@ -25,15 +25,11 @@ const styles = theme => ({
     minWidth : 1080
   },
   menu : {
-    width : '10%',
+    width : '13%',
     marginTop : 15,
     marginBottom : 15,
     display : 'flex',
     justifyContent : 'center'
-  },
-  paper : {
-    marginLeft : 18,
-    marginRight : 18
   },
   progress : {
     margin : theme.spacing(2)
@@ -93,37 +89,37 @@ const styles = theme => ({
 
 });
 
-class Item extends Component{
+class Reservation extends Component{
 
   constructor(props){
     super(props);
     this.state = {
-        items : '',
+      reservations : '',
       completed : 0,
-      searchKeyword : ''
+      searchKeyword : '',
     }
   }
 
   stateRefresh = () => {
     this.setState({
-        items : '',
+      reservations : '',
       completed : 0,
       searchKeyword : ''
     });
     this.callApi()
-      .then(res => this.setState({items : res}))
+      .then(res => this.setState({reservations : res}))
       .catch(err => console.log(err));
   }
 
   componentDidMount(){
     this.timer = setInterval(this.progress, 20);
     this.callApi()
-      .then(res => this.setState({items : res}))
+      .then(res => this.setState({reservations : res}))
       .catch(err => console.log(err));
   }
 
   callApi = async () => {
-    const response = await fetch('/api/items');
+    const response = await fetch('/api/reservations');
     const body = await response.json();
     return body;
   }
@@ -142,35 +138,36 @@ class Item extends Component{
   render(){
     const filteredComponents = (data) => {
       data = data.filter((c) => {
-        return c.item_name.indexOf(this.state.searchKeyword) > -1;
+        return c.guest_name.indexOf(this.state.searchKeyword) > -1;
       });
       return data.map((c) => {
-        return <Item_Show stateRefresh={this.stateRefresh} key={c.item_name} item_name={c.item_name} staff_id={c.staff_id} item_area={c.item_area}
-        item_stock={c.item_stock} item_need={c.item_need} item_budget={c.item_budget} order_status={c.order_status}/>
+        return <R_Show stateRefresh={this.stateRefresh} key={c.reserve_number} reserve_number={c.reserve_number} guest_mail={c.guest_mail} guest_name={c.guest_name}
+        room_number={c.room_number} number_of_members={c.number_of_members} check_in={c.check_in} check_out={c.check_out} real_check_in={c.real_check_in}
+        real_check_out={c.real_check_out} cancel_status={c.cancel_status}/>
       });
     }
     const { classes } = this.props;
-    const cellList = ["물품명", "담당직원", "물품위치", "현재개수", "필요개수", "물품예산", "발주여부", "설정"];
+    const cellList = ["예약번호", "고객 이메일", "고객성명", "객실번호", "숙박인원", "예정 체크인", "예정 체크아웃", "실제 체크인", "실제 체크아웃", "취소여부", "설정"];
     return (
-        <Card>
+      <Card>
         <div className={classes.root}>
           <AppBar position="static" color="s">
             <Toolbar>
               <Typography className={classes.title} variant="h6" noWrap>
-                물품 목록
+                예약 현황 및 관리
               </Typography>
               <div className={classes.menu}>
-                <Item_Revise stateRefresh={this.stateRefresh}/>
+                <Check_in stateRefresh={this.stateRefresh}/>
               </div>
               <div className={classes.menu}>
-                <ItemAdd stateRefresh={this.stateRefresh}/>
+                <R_Revise stateRefresh={this.stateRefresh}/>
               </div>
               <div className={classes.search}>
                 <div className={classes.searchIcon}>
                   <SearchIcon/>
                 </div>
                 <InputBase
-                  placeholder="물품정보 검색"
+                  placeholder="예약검색"
                   classes={{
                     root: classes.inputRoot,
                     input: classes.inputInput,
@@ -193,8 +190,8 @@ class Item extends Component{
                 </TableRow>
               </TableHead>
               <TableBody>
-                { this.state.items ? 
-                filteredComponents(this.state.items) :  
+                { this.state.reservations ? 
+                filteredComponents(this.state.reservations) :  
                 <TableRow>
                   <TableCell colSpan="12" align="center">
                     <CircularProgress className={classes.progress} variant="determinate" value={this.state.completed}/>
@@ -210,4 +207,4 @@ class Item extends Component{
   }
 }
 
-export default withStyles(styles)(Item);
+export default withStyles(styles)(Reservation);

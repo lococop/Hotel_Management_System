@@ -1,4 +1,4 @@
-import Item_Show from '../components/Item_Show';
+import Home_Room_Show from './Home_Room_Show'
 import React, { Component } from 'react';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
@@ -14,8 +14,6 @@ import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import Card from '@material-ui/core/Card';
-import ItemAdd from '../components/ItemAdd';
-import Item_Revise from '../components/Item_Revise';
 
 
 const styles = theme => ({
@@ -25,7 +23,7 @@ const styles = theme => ({
     minWidth : 1080
   },
   menu : {
-    width : '10%',
+    width : '8%',
     marginTop : 15,
     marginBottom : 15,
     display : 'flex',
@@ -93,12 +91,12 @@ const styles = theme => ({
 
 });
 
-class Item extends Component{
+class Home_Room extends Component{
 
   constructor(props){
     super(props);
     this.state = {
-        items : '',
+      rooms : '',
       completed : 0,
       searchKeyword : ''
     }
@@ -106,24 +104,24 @@ class Item extends Component{
 
   stateRefresh = () => {
     this.setState({
-        items : '',
+        rooms : '',
       completed : 0,
       searchKeyword : ''
     });
     this.callApi()
-      .then(res => this.setState({items : res}))
+      .then(res => this.setState({rooms : res}))
       .catch(err => console.log(err));
   }
 
   componentDidMount(){
     this.timer = setInterval(this.progress, 20);
     this.callApi()
-      .then(res => this.setState({items : res}))
+      .then(res => this.setState({rooms : res}))
       .catch(err => console.log(err));
   }
 
   callApi = async () => {
-    const response = await fetch('/api/items');
+    const response = await fetch('/api/home_rooms');
     const body = await response.json();
     return body;
   }
@@ -142,45 +140,23 @@ class Item extends Component{
   render(){
     const filteredComponents = (data) => {
       data = data.filter((c) => {
-        return c.item_name.indexOf(this.state.searchKeyword) > -1;
+        return c.room_number.indexOf(this.state.searchKeyword) > -1;
       });
       return data.map((c) => {
-        return <Item_Show stateRefresh={this.stateRefresh} key={c.item_name} item_name={c.item_name} staff_id={c.staff_id} item_area={c.item_area}
-        item_stock={c.item_stock} item_need={c.item_need} item_budget={c.item_budget} order_status={c.order_status}/>
+        return <Home_Room_Show stateRefresh={this.stateRefresh} key={c.room_number} room_number={c.room_number} room_price={c.room_price}
+        room_capacity={c.room_capacity} room_bed={c.room_bed} room_view={c.room_view} room_smoking={c.room_smoking}/>
       });
     }
     const { classes } = this.props;
-    const cellList = ["물품명", "담당직원", "물품위치", "현재개수", "필요개수", "물품예산", "발주여부", "설정"];
+    const cellList = ["객실번호", "객실 가격", "수용인원", "침대유형", "뷰", "흡연여부", "", ""];
     return (
         <Card>
         <div className={classes.root}>
           <AppBar position="static" color="s">
             <Toolbar>
               <Typography className={classes.title} variant="h6" noWrap>
-                물품 목록
+                객실 목록
               </Typography>
-              <div className={classes.menu}>
-                <Item_Revise stateRefresh={this.stateRefresh}/>
-              </div>
-              <div className={classes.menu}>
-                <ItemAdd stateRefresh={this.stateRefresh}/>
-              </div>
-              <div className={classes.search}>
-                <div className={classes.searchIcon}>
-                  <SearchIcon/>
-                </div>
-                <InputBase
-                  placeholder="물품정보 검색"
-                  classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput,
-                  }}
-                  name="searchKeyword"
-                  value={this.state.searchKeyword}
-                  onChange={this.handleValueChange}
-                  inputProps={{ 'aria-label': 'search' }}
-                />
-              </div>
             </Toolbar>
           </AppBar>
           <Card>
@@ -193,8 +169,8 @@ class Item extends Component{
                 </TableRow>
               </TableHead>
               <TableBody>
-                { this.state.items ? 
-                filteredComponents(this.state.items) :  
+                { this.state.rooms ? 
+                filteredComponents(this.state.rooms) :  
                 <TableRow>
                   <TableCell colSpan="12" align="center">
                     <CircularProgress className={classes.progress} variant="determinate" value={this.state.completed}/>
@@ -210,4 +186,4 @@ class Item extends Component{
   }
 }
 
-export default withStyles(styles)(Item);
+export default withStyles(styles)(Home_Room);

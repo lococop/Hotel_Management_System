@@ -1,4 +1,5 @@
-import Item_Show from '../components/Item_Show';
+import Staff_Show from '../components/Staff_Show'
+import StaffAdd from '../components/StaffAdd';
 import React, { Component } from 'react';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
@@ -11,11 +12,11 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
-import { fade } from '@material-ui/core/styles';
+import { fade, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import Card from '@material-ui/core/Card';
-import ItemAdd from '../components/ItemAdd';
-import Item_Revise from '../components/Item_Revise';
+import Staff_Memo from '../components/Staff_Memo';
+import Staff_Revise from '../components/Staff_Revise';
 
 
 const styles = theme => ({
@@ -93,12 +94,12 @@ const styles = theme => ({
 
 });
 
-class Item extends Component{
+class Staff extends Component{
 
   constructor(props){
     super(props);
     this.state = {
-        items : '',
+      staffs : '',
       completed : 0,
       searchKeyword : ''
     }
@@ -106,24 +107,24 @@ class Item extends Component{
 
   stateRefresh = () => {
     this.setState({
-        items : '',
+      staffs : '',
       completed : 0,
       searchKeyword : ''
     });
     this.callApi()
-      .then(res => this.setState({items : res}))
+      .then(res => this.setState({staffs : res}))
       .catch(err => console.log(err));
   }
 
   componentDidMount(){
     this.timer = setInterval(this.progress, 20);
     this.callApi()
-      .then(res => this.setState({items : res}))
+      .then(res => this.setState({staffs : res}))
       .catch(err => console.log(err));
   }
 
   callApi = async () => {
-    const response = await fetch('/api/items');
+    const response = await fetch('/api/staffs');
     const body = await response.json();
     return body;
   }
@@ -142,35 +143,38 @@ class Item extends Component{
   render(){
     const filteredComponents = (data) => {
       data = data.filter((c) => {
-        return c.item_name.indexOf(this.state.searchKeyword) > -1;
+        return c.staff_name.indexOf(this.state.searchKeyword) > -1;
       });
       return data.map((c) => {
-        return <Item_Show stateRefresh={this.stateRefresh} key={c.item_name} item_name={c.item_name} staff_id={c.staff_id} item_area={c.item_area}
-        item_stock={c.item_stock} item_need={c.item_need} item_budget={c.item_budget} order_status={c.order_status}/>
+        return <Staff_Show stateRefresh={this.stateRefresh} key={c.staff_id} image={c.image} staff_id={c.staff_id} staff_name={c.staff_name} staff_role={c.staff_role} staff_area={c.staff_area} 
+        staff_address={c.staff_address} staff_mail={c.staff_mail} staff_phone_number={c.staff_phone_number} staff_salary={c.staff_salary} staff_account={c.staff_account} staff_memo={c.staff_memo}/>
       });
     }
     const { classes } = this.props;
-    const cellList = ["물품명", "담당직원", "물품위치", "현재개수", "필요개수", "물품예산", "발주여부", "설정"];
+    const cellList = ["이미지", "아이디", "이름", "부서", "구역", "주소", "이메일", "전화번호", "봉급", "계좌번호", "특이사항", "설정"];
     return (
         <Card>
         <div className={classes.root}>
           <AppBar position="static" color="s">
             <Toolbar>
               <Typography className={classes.title} variant="h6" noWrap>
-                물품 목록
+                직원 목록
               </Typography>
               <div className={classes.menu}>
-                <Item_Revise stateRefresh={this.stateRefresh}/>
+                <StaffAdd stateRefresh={this.stateRefresh}/>
               </div>
               <div className={classes.menu}>
-                <ItemAdd stateRefresh={this.stateRefresh}/>
+                <Staff_Memo stateRefresh={this.stateRefresh}/>
+              </div>
+              <div className={classes.menu}>
+                <Staff_Revise stateRefresh={this.stateRefresh}/>
               </div>
               <div className={classes.search}>
                 <div className={classes.searchIcon}>
                   <SearchIcon/>
                 </div>
                 <InputBase
-                  placeholder="물품정보 검색"
+                  placeholder="직원검색"
                   classes={{
                     root: classes.inputRoot,
                     input: classes.inputInput,
@@ -193,8 +197,8 @@ class Item extends Component{
                 </TableRow>
               </TableHead>
               <TableBody>
-                { this.state.items ? 
-                filteredComponents(this.state.items) :  
+                { this.state.staffs ? 
+                filteredComponents(this.state.staffs) :  
                 <TableRow>
                   <TableCell colSpan="12" align="center">
                     <CircularProgress className={classes.progress} variant="determinate" value={this.state.completed}/>
@@ -210,4 +214,4 @@ class Item extends Component{
   }
 }
 
-export default withStyles(styles)(Item);
+export default withStyles(styles)(Staff);

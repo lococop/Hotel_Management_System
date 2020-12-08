@@ -1,4 +1,4 @@
-import Item_Show from '../components/Item_Show';
+import Service_Show from '../components/Service_Show'
 import React, { Component } from 'react';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
@@ -14,8 +14,7 @@ import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import Card from '@material-ui/core/Card';
-import ItemAdd from '../components/ItemAdd';
-import Item_Revise from '../components/Item_Revise';
+import ServiceAdd from '../components/ServiceAdd';
 
 
 const styles = theme => ({
@@ -25,7 +24,7 @@ const styles = theme => ({
     minWidth : 1080
   },
   menu : {
-    width : '10%',
+    width : '8%',
     marginTop : 15,
     marginBottom : 15,
     display : 'flex',
@@ -93,12 +92,12 @@ const styles = theme => ({
 
 });
 
-class Item extends Component{
+class Service extends Component{
 
   constructor(props){
     super(props);
     this.state = {
-        items : '',
+      services : '',
       completed : 0,
       searchKeyword : ''
     }
@@ -106,24 +105,24 @@ class Item extends Component{
 
   stateRefresh = () => {
     this.setState({
-        items : '',
+      services : '',
       completed : 0,
       searchKeyword : ''
     });
     this.callApi()
-      .then(res => this.setState({items : res}))
+      .then(res => this.setState({services : res}))
       .catch(err => console.log(err));
   }
 
   componentDidMount(){
     this.timer = setInterval(this.progress, 20);
     this.callApi()
-      .then(res => this.setState({items : res}))
+      .then(res => this.setState({services : res}))
       .catch(err => console.log(err));
   }
 
   callApi = async () => {
-    const response = await fetch('/api/items');
+    const response = await fetch('/api/services');
     const body = await response.json();
     return body;
   }
@@ -142,35 +141,32 @@ class Item extends Component{
   render(){
     const filteredComponents = (data) => {
       data = data.filter((c) => {
-        return c.item_name.indexOf(this.state.searchKeyword) > -1;
+        return c.service_name.indexOf(this.state.searchKeyword) > -1;
       });
       return data.map((c) => {
-        return <Item_Show stateRefresh={this.stateRefresh} key={c.item_name} item_name={c.item_name} staff_id={c.staff_id} item_area={c.item_area}
-        item_stock={c.item_stock} item_need={c.item_need} item_budget={c.item_budget} order_status={c.order_status}/>
+        return <Service_Show stateRefresh={this.stateRefresh} key={c.guest_id} service_name={c.service_name} staff_id={c.staff_id} guest_mail={c.guest_mail}
+        room_number={c.room_number} service_price={c.service_price}/>
       });
     }
     const { classes } = this.props;
-    const cellList = ["물품명", "담당직원", "물품위치", "현재개수", "필요개수", "물품예산", "발주여부", "설정"];
+    const cellList = ["서비스명", "담당직원", "요청고객", "객실번호", "서비스 금액", "설정"];
     return (
         <Card>
         <div className={classes.root}>
           <AppBar position="static" color="s">
             <Toolbar>
               <Typography className={classes.title} variant="h6" noWrap>
-                물품 목록
+                서비스 목록
               </Typography>
               <div className={classes.menu}>
-                <Item_Revise stateRefresh={this.stateRefresh}/>
-              </div>
-              <div className={classes.menu}>
-                <ItemAdd stateRefresh={this.stateRefresh}/>
+                <ServiceAdd stateRefresh={this.stateRefresh}/>
               </div>
               <div className={classes.search}>
                 <div className={classes.searchIcon}>
                   <SearchIcon/>
                 </div>
                 <InputBase
-                  placeholder="물품정보 검색"
+                  placeholder="서비스 검색"
                   classes={{
                     root: classes.inputRoot,
                     input: classes.inputInput,
@@ -193,8 +189,8 @@ class Item extends Component{
                 </TableRow>
               </TableHead>
               <TableBody>
-                { this.state.items ? 
-                filteredComponents(this.state.items) :  
+                { this.state.services ? 
+                filteredComponents(this.state.services) :  
                 <TableRow>
                   <TableCell colSpan="12" align="center">
                     <CircularProgress className={classes.progress} variant="determinate" value={this.state.completed}/>
@@ -210,4 +206,4 @@ class Item extends Component{
   }
 }
 
-export default withStyles(styles)(Item);
+export default withStyles(styles)(Service);
