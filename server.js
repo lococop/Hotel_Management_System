@@ -25,12 +25,142 @@ const upload = multer({dest : './upload'});
 
 app.get('/api/reservations', (req, res) => {
     connection.query(
-      "SELECT reserve_number, guest_mail, guest_name, room_number, number_of_members, check_in, check_out, real_check_in, real_check_out, payment_status, pick_up, cancel_status FROM Reservation NATURAL JOIN Guest WHERE isDeleted = 0",
+      "SELECT reserve_number, guest_mail, guest_name, room_number, number_of_members, check_in, check_out, real_check_in, real_check_out, cancel_status FROM Reservation NATURAL JOIN Guest WHERE isDeleted = 0",
       (err, rows, fields) => {
         res.send(rows);
       }
     )
 });
+
+app.get('/api/cleanups', (req, res) => {
+  connection.query(
+    "SELECT * FROM Cleanup WHERE clean_isDeleted = 0",
+    (err, rows, fields) => {
+      res.send(rows);
+    }
+  )
+});
+
+app.post('/api/cleanups', upload.single(), (req, res) => {
+  let sql = 'INSERT INTO Cleanup VALUES (?, ?, ?, ?, ?, 0)';
+  let clean_area = req.body.clean_area;
+  let staff_id = req.body.staff_id;
+  let clean_status = req.body.clean_status;
+  let clean_members = req.body.clean_members;
+  let clean_time = req.body.clean_time;
+  let params = [clean_area, staff_id, clean_status, clean_members, clean_time];
+  connection.query(sql, params,
+    (err, rows, fields) => {
+      res.send(rows);
+    });
+});
+
+app.put('/api/cleanups', upload.single(), (req, res) => {
+  let sql = 'UPDATE Cleanup SET ' + req.body.revise_element + ' = ? WHERE clean_area = ?';
+  let revise_value = req.body.revise_value;
+  let clean_area = req.body.clean_area;
+  let params = [revise_value, clean_area];
+  connection.query(sql, params,
+    (err, rows, fields) => {
+      res.send(rows);
+    });
+});
+
+app.delete('/api/cleanups/:clean_area', (req, res) => {
+  let sql = 'UPDATE Cleanup SET clean_isDeleted = 1 WHERE clean_area = ?';
+  let params = [req.params.clean_area];
+  connection.query(sql, params,
+    (err,rows,fields) => {
+      res.send(rows);
+    })
+})
+
+app.get('/api/items', (req, res) => {
+  connection.query(
+    "SELECT * FROM Item WHERE item_isDeleted = 0",
+    (err, rows, fields) => {
+      res.send(rows);
+    }
+  )
+});
+
+app.post('/api/items', upload.single(), (req, res) => {
+  let sql = 'INSERT INTO Item VALUES (?, ?, ?, ?, ?, ?, ?)';
+  let item_name = req.body.item_name;
+  let staff_id = req.body.staff_id;
+  let item_area = req.body.item_area;
+  let item_stock = req.body.item_stock;
+  let item_need = req.body.item_need;
+  let item_budget = req.body.item_budget;
+  let order_status = req.body.order_status;
+  let params = [item_name, staff_id, item_area, item_stock, item_need, item_budget, order_status];
+  connection.query(sql, params,
+    (err, rows, fields) => {
+      res.send(rows);
+    });
+});
+
+app.put('/api/items', upload.single(), (req, res) => {
+  let sql = 'UPDATE Item SET ' + req.body.revise_element + ' = ? WHERE item_name = ?';
+  let revise_value = req.body.revise_value;
+  let item_name = req.body.item_name;
+  let params = [revise_value, item_name];
+  connection.query(sql, params,
+    (err, rows, fields) => {
+      res.send(rows);
+    });
+});
+
+app.delete('/api/items/:item_name', (req, res) => {
+  let sql = 'UPDATE Item SET item_isDeleted = 1 WHERE item_name = ?';
+  let params = [req.params.item_name];
+  connection.query(sql, params,
+    (err,rows,fields) => {
+      res.send(rows);
+    })
+})
+
+app.get('/api/parkings', (req, res) => {
+  connection.query(
+    "SELECT * FROM Parking WHERE park_isDeleted = 0",
+    (err, rows, fields) => {
+      res.send(rows);
+    }
+  )
+});
+
+app.post('/api/parkings', upload.single(), (req, res) => {
+  let sql = 'INSERT INTO Parking VALUES (?, ?, ?, ?, NOW(), "0000-00-00", 0)';
+  let car_number = req.body.car_number;
+  let staff_id = req.body.staff_id;
+  let guest_mail = req.body.guest_mail;
+  let car_model = req.body.car_model;
+  let park_in = req.body.park_in;
+  let params = [car_number, staff_id, guest_mail, car_model, park_in];
+  connection.query(sql, params,
+    (err, rows, fields) => {
+      res.send(rows);
+    });
+});
+
+app.put('/api/parkings', upload.single(), (req, res) => {
+  let sql = 'UPDATE Parking SET park_out = NOW() WHERE car_number = ?';
+  let car_number = req.body.car_number;
+  let params = [car_number];
+  connection.query(sql, params,
+    (err, rows, fields) => {
+      res.send(rows);
+    });
+});
+
+app.delete('/api/parkings/:car_number', (req, res) => {
+  let sql = 'UPDATE Parking SET park_isDeleted = 1 WHERE car_number = ?';
+  let params = [req.params.car_number];
+  connection.query(sql, params,
+    (err,rows,fields) => {
+      res.send(rows);
+    })
+})
 
 app.get('/api/facilitys', (req, res) => {
   connection.query(
@@ -84,6 +214,15 @@ app.delete('/api/services/:guest_mail', (req, res) => {
     })
 })
 
+app.get('/api/home_rooms', (req, res) => {
+  connection.query(
+    "SELECT * FROM Room WHERE room_number = '201호' or room_number = '304호' or room_number = '402호' or room_number = '405호'",
+    (err, rows, fields) => {
+      res.send(rows);
+    }
+  )
+});
+
 app.get('/api/rooms', (req, res) => {
   connection.query(
     "SELECT * FROM Room",
@@ -125,7 +264,7 @@ app.post('/api/guests', upload.single(), (req, res) => {
 });
 
 app.put('/api/guests', upload.single(), (req, res) => {
-  let sql = 'INSERT INTO Guest VALUES (?, ?, ?, ?, 0, 0)';
+  let sql = 'INSERT INTO Guest VALUES (?, ?, ?, ?, "400,000", 0)';
   let guest_mail = req.body.guest_mail;
   let guest_name = req.body.guest_name;
   let payment_info = req.body.payment_info;
@@ -231,14 +370,13 @@ app.patch('/api/reservations', upload.single(), (req, res) => {
 });
 
 app.put('/api/reservations', upload.single(), (req, res) => {
-  let sql = 'INSERT INTO Reservation VALUES (null, ?, ?, ?, ?, ?, "0000-00-00", "0000-00-00", "N", ?, "N", 0)';
+  let sql = 'INSERT INTO Reservation VALUES (null, ?, ?, ?, ?, ?, "0000-00-00", "0000-00-00", "N", 0)';
   let guest_mail_R = req.body.guest_mail_R;
   let room_number = req.body.room_number;
   let number_of_members = req.body.number_of_members;
   let startDate = req.body.startDate;
   let endDate = req.body.endDate;
-  let pick_up = req.body.pick_up;
-  let params = [guest_mail_R, room_number, number_of_members, startDate, endDate, pick_up];
+  let params = [guest_mail_R, room_number, number_of_members, startDate, endDate];
   connection.query(sql, params,
     (err, rows, fields) => {
       res.send(rows);

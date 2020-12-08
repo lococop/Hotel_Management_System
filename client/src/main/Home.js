@@ -8,6 +8,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 import R_Button from '../components/R_Button';
 import Home_Room from '../components/Home_Room';
+import styled, { ThemeConsumer } from "styled-components";
 
 const roots = {
   root : {
@@ -26,7 +27,7 @@ const styles1 = {
 }
 
 const styles2 = {
-  width : '5%',
+  width : '7%',
   marginLeft : 1100,
   display : 'flex',
   justifyContent : 'center'
@@ -39,6 +40,18 @@ const styles = {
   justifyContent : 'center'
 }
 
+const Container = styled.div`
+  position: absolute;
+  top: 1;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url(https://source.unsplash.com/random/1920x1080);
+  background-size: cover;
+  opacity: 0.5;
+`;
+
+
 class Home extends React.Component{
     constructor(props){
         super(props);
@@ -49,26 +62,28 @@ class Home extends React.Component{
     }
 
     render() {
-        return (
+        return (  
         <Card>
             <Router>
+                   
             <div style={roots}>
-            <AppBar style={styles1} position="static" color="default">
+            <AppBar style={styles1} position="static" color="secondary">
             <Toolbar >
-                <Typography flexGrow = "1" display = "none" variant="h6" noWrap>
-                    배에힘꽉조 호텔
+                <Typography flexGrow = "1" display = "none" variant="h6" noWrap className="textColor">
+                    객실 예약하기
                 </Typography>
                 <div style={styles2}>
                 <Link to="/reserve">
-                <Button variant="contained" color="default">예약하기</Button>
+                <Button variant="outlined" color="secondary">조건 설정하기</Button>
                 </Link>
                 </div>
                 <div style={styles}>
                 <Link to="/home_room">
-                <Button variant="contained" color="default">객실정보 확인하기</Button>
+                <Button variant="contained" color="default">객실 검색하기</Button>
                 </Link>
                 </div>
             </Toolbar>
+            
             </AppBar>
             </div>
             <main>
@@ -77,7 +92,9 @@ class Home extends React.Component{
                 <Route exact path="/home_room" component={Home_Room} />
                 </Switch>
             </main>
+            
             </Router>
+            
         </Card>
         )
     }

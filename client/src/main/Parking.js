@@ -1,5 +1,4 @@
-import Staff_Show from '../components/Staff_Show'
-import StaffAdd from '../components/StaffAdd';
+import Parking_Show from '../components/Parking_Show';
 import React, { Component } from 'react';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
@@ -12,11 +11,11 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
-import { fade, makeStyles } from '@material-ui/core/styles';
+import { fade } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import Card from '@material-ui/core/Card';
-import Staff_Memo from '../components/Staff_Memo';
-import Staff_Revise from '../components/Staff_Revise';
+import ParkingAdd from '../components/ParkingAdd';
+import Parking_Park_out from '../components/Parking_Park_out';
 
 
 const styles = theme => ({
@@ -26,7 +25,7 @@ const styles = theme => ({
     minWidth : 1080
   },
   menu : {
-    width : '10%',
+    width : '11%',
     marginTop : 15,
     marginBottom : 15,
     display : 'flex',
@@ -94,12 +93,12 @@ const styles = theme => ({
 
 });
 
-class Staff extends Component{
+class Parking extends Component{
 
   constructor(props){
     super(props);
     this.state = {
-      staffs : '',
+        parkings : '',
       completed : 0,
       searchKeyword : ''
     }
@@ -107,24 +106,24 @@ class Staff extends Component{
 
   stateRefresh = () => {
     this.setState({
-      staffs : '',
+        parkings : '',
       completed : 0,
       searchKeyword : ''
     });
     this.callApi()
-      .then(res => this.setState({staffs : res}))
+      .then(res => this.setState({parkings : res}))
       .catch(err => console.log(err));
   }
 
   componentDidMount(){
     this.timer = setInterval(this.progress, 20);
     this.callApi()
-      .then(res => this.setState({staffs : res}))
+      .then(res => this.setState({parkings : res}))
       .catch(err => console.log(err));
   }
 
   callApi = async () => {
-    const response = await fetch('/api/staffs');
+    const response = await fetch('/api/parkings');
     const body = await response.json();
     return body;
   }
@@ -143,38 +142,35 @@ class Staff extends Component{
   render(){
     const filteredComponents = (data) => {
       data = data.filter((c) => {
-        return c.staff_name.indexOf(this.state.searchKeyword) > -1;
+        return c.car_number.indexOf(this.state.searchKeyword) > -1;
       });
       return data.map((c) => {
-        return <Staff_Show stateRefresh={this.stateRefresh} key={c.staff_id} image={c.image} staff_id={c.staff_id} staff_name={c.staff_name} staff_role={c.staff_role} staff_area={c.staff_area} 
-        staff_address={c.staff_address} staff_mail={c.staff_mail} staff_phone_number={c.staff_phone_number} staff_salary={c.staff_salary} staff_account={c.staff_account} staff_memo={c.staff_memo}/>
+        return <Parking_Show stateRefresh={this.stateRefresh} key={c.car_number} car_number={c.car_number} staff_id={c.staff_id} guest_mail={c.guest_mail}
+        car_model={c.car_model} park_in={c.park_in} park_out={c.park_out} />
       });
     }
     const { classes } = this.props;
-    const cellList = ["이미지", "아이디", "이름", "부서", "구역", "주소", "이메일", "전화번호", "봉급", "계좌번호", "특이사항", "설정"];
+    const cellList = ["차량 번호", "담당직원", "소유주", "차량 모델", "파크인", "파크아웃", "설정"];
     return (
         <Card>
         <div className={classes.root}>
           <AppBar position="static" color="s">
             <Toolbar>
               <Typography className={classes.title} variant="h6" noWrap>
-                직원 목록
+                주차 목록
               </Typography>
               <div className={classes.menu}>
-                <StaffAdd stateRefresh={this.stateRefresh}/>
+                <Parking_Park_out stateRefresh={this.stateRefresh}/>
               </div>
               <div className={classes.menu}>
-                <Staff_Memo stateRefresh={this.stateRefresh}/>
-              </div>
-              <div className={classes.menu}>
-                <Staff_Revise stateRefresh={this.stateRefresh}/>
+                <ParkingAdd stateRefresh={this.stateRefresh}/>
               </div>
               <div className={classes.search}>
                 <div className={classes.searchIcon}>
                   <SearchIcon/>
                 </div>
                 <InputBase
-                  placeholder="직원검색"
+                  placeholder="주차정보 검색"
                   classes={{
                     root: classes.inputRoot,
                     input: classes.inputInput,
@@ -197,8 +193,8 @@ class Staff extends Component{
                 </TableRow>
               </TableHead>
               <TableBody>
-                { this.state.staffs ? 
-                filteredComponents(this.state.staffs) :  
+                { this.state.parkings ? 
+                filteredComponents(this.state.parkings) :  
                 <TableRow>
                   <TableCell colSpan="12" align="center">
                     <CircularProgress className={classes.progress} variant="determinate" value={this.state.completed}/>
@@ -214,4 +210,4 @@ class Staff extends Component{
   }
 }
 
-export default withStyles(styles)(Staff);
+export default withStyles(styles)(Parking);

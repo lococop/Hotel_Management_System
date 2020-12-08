@@ -1,8 +1,9 @@
 import React from 'react';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
+import Reserve_Button from './Reserve_Button';
 
-class Room_Show extends React.Component{
+class Home_Room_Show extends React.Component{
     render() {
         return (
             <TableRow>
@@ -13,9 +14,10 @@ class Room_Show extends React.Component{
                 <TableCell>{this.props.room_view}</TableCell>
                 <TableCell>{this.props.room_smoking}</TableCell>
                 <TableCell>{this.props.room_damaged}</TableCell>
+                <TableCell><Reserve_Button stateRefresh={this.props.stateRefresh} item_name={this.props.item_name}/></TableCell>
             </TableRow>
         )
     }
 }
 
-export default Room_Show;
+export default Home_Room_Show;

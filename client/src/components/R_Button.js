@@ -8,6 +8,22 @@ import { DateRangePicker } from 'react-dates';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { Link, Route, Switch, BrowserRouter as Router } from 'react-router-dom';
+import Home_Room from './Home_Room';
+import styled from "styled-components";
+
+const Container = styled.div`
+  position: absolute;
+  top: 1;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url(https://source.unsplash.com/YMOHw3F1Hdk/1920x1080);
+  background-size: cover;
+`;
 
 const styles = theme => ({
     hidden : {
@@ -29,8 +45,8 @@ const styles = theme => ({
 })
 
 const styles1 = {
-    minWidth : "135%",
-  }
+    marginLeft: 500,
+}
 
 class R_Button extends React.Component{
 
@@ -43,10 +59,11 @@ class R_Button extends React.Component{
             guest_phone_number : '',
             guest_mail_R : '',
             room_number : '',
-            number_of_members : '',
+            number_of_members : 1,
             startDate: null,
             endDate: null,
-            pick_up : '',
+            open : false,
+            open1 : false,
         }
     }
 
@@ -66,6 +83,8 @@ class R_Button extends React.Component{
             guest_name : '',
             payment_info :  '',
             guest_phone_number : '',
+            open : false,
+            open1 : false,
         })
     }
     }
@@ -94,7 +113,7 @@ class R_Button extends React.Component{
     }
 
     handleFormSubmit1 = (e) => {
-        if(this.state.room_number==='' || this.state.number_of_members==='' || this.state.startDate===null || this.state.endDate===null || this.state.pick_up===''){
+        if(this.state.room_number==='' || this.state.number_of_members==='' || this.state.startDate===null || this.state.endDate===null){
             alert("예약정보를 모두 입력해주세요.");
         }
         else{
@@ -106,10 +125,11 @@ class R_Button extends React.Component{
         this.setState({
             guest_mail_R : '',
             room_number : '',
-            number_of_members : '',
+            number_of_members : 1,
             startDate: null,
             endDate: null,
-            pick_up : '',
+            open : false,
+            open1 : false,
         })
     }
     }
@@ -122,7 +142,6 @@ class R_Button extends React.Component{
         formData.append('number_of_members', this.state.number_of_members);
         formData.append('startDate', this.state.startDate.format('YYYY-MM-DD'));
         formData.append('endDate', this.state.endDate.format('YYYY-MM-DD'));
-        formData.append('pick_up', this.state.pick_up);
         const config = {
             headers : {
                 'content-type' : 'multipart/form-data'
@@ -132,31 +151,103 @@ class R_Button extends React.Component{
 
     }
 
-    render(){
-        const { classes } = this.props;
-        return (
-            <Card align="center">
-                <TextField label="고객 이메일" input type="text" name="guest_mail" value={this.state.guest_mail} onChange={this.handleValueChange}/><br/>
-                <TextField label="고객 성명" input type="text" name="guest_name" value={this.state.guest_name} onChange={this.handleValueChange}/><br/>
-                <TextField label="카드번호" input type="text" name="payment_info" value={this.state.payment_info} onChange={this.handleValueChange}/><br/>
-                <TextField label="고객 전화번호" input type="text" name="guest_phone_number" value={this.state.guest_phone_number} onChange={this.handleValueChange}/><br/>
-                <Button  variant="contained" color="primary" onClick={this.handleFormSubmit}>개인 정보 입력</Button><br/><br/>
 
-                <DateRangePicker
+    handleSetnumber = () => {
+        this.setState({
+            number_of_members : this.state.number_of_members,
+            open : false,
+        })
+    }
+
+    handleIncrease = () => {
+        if(this.state.number_of_members + 1 <= 10){
+        this.setState({
+            number_of_members: this.state.number_of_members +1
+          });
+        }
+    };
+
+    handleDecrease = () => {
+        if(this.state.number_of_members - 1 > 0){
+        this.setState({
+            number_of_members: this.state.number_of_members -1
+          });
+        }
+    };
+
+    handleClickOpen = () => {
+        this.setState({
+            open: true
+        })
+      }
+
+    handleClickClose = () => {
+        this.setState({
+            open: false
+        })
+      }
+
+    handleOpen = () => {
+        this.setState({
+            open1 : true
+        });
+    }
+
+    handleClose = () => {
+        this.setState({
+            open1 : false
+        })
+    }
+
+    render(){
+        const { number_of_members } = this.state;
+
+        const { handleIncrease, handleDecrease } = this;
+
+        return (
+            <Card  align="center">
+            <Container/>
+                <br/><br/><br/><br/><br/><br/><br/><br/>
+                <DateRangePicker 
                   startDate={this.state.startDate} 
                   startDateId="your_unique_start_date_id" 
                   endDate={this.state.endDate} 
                   endDateId="your_unique_end_date_id" 
                   onDatesChange={({ startDate, endDate }) => this.setState({ startDate, endDate })} 
                   focusedInput={this.state.focusedInput} 
-                  onFocusChange={focusedInput => this.setState({ focusedInput })}/><br/>
-                <TextField label="객실번호" input type="text" name="room_number" value={this.state.room_number} onChange={this.handleValueChange}/><br/>
-                <TextField label="숙박인원" input type="text" name="number_of_members" value={this.state.number_of_members} onChange={this.handleValueChange}/><br/>
-                <TextField label="픽업 여부" input type="text" name="pick_up" value={this.state.pick_up} onChange={this.handleValueChange}/><br/>
-                <Button variant="contained" color="primary" onClick={this.handleFormSubmit1}>예약 정보 입력</Button><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                  onFocusChange={focusedInput => this.setState({ focusedInput })}/><br/><br/>
+                <Button
+                    variant="contained" 
+                    color="primary" 
+                    onClick={this.handleClickOpen}>인원수 선택
+                </Button>
+                <Dialog 
+                    open={this.state.open} 
+                    onClose={this.handleClickClose}>
+                    <DialogTitle>인원수 선택</DialogTitle>
+                    
+                    <DialogActions>
+                        <Button 
+                            onClick={handleDecrease}
+                            variant="contained"
+                            color="primary">-</Button>
+                            <b>{ number_of_members }</b>
+                        <Button 
+                            onClick={handleIncrease}
+                            variant="contained"
+                            color="primary">+</Button>
+                        <Button
+                            variant="outlined"
+                            color="primary" 
+                            onClick={this.handleSetnumber}>
+                        완료</Button>
+                    </DialogActions>
+                </Dialog><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
             </Card>
+            
         )
     }
 }
+
 
 export default withStyles(styles)(R_Button);

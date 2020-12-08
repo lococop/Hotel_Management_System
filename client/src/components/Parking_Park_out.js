@@ -1,5 +1,5 @@
 import React from 'react';
-import { patch } from 'axios';
+import { put } from 'axios';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -15,14 +15,12 @@ const styles = theme => ({
     }
 })
 
-class R_Revise extends React.Component{
+class Parking_Park_out extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
-            reserve_number : '',
-            revise_element : '',
-            revise_value : '',
+            car_number : '',
             open : false
         }
     }
@@ -35,9 +33,7 @@ class R_Revise extends React.Component{
                 this.props.stateRefresh();
             })
         this.setState({
-            reserve_number : '',
-            revise_element : '',
-            revise_value : '',
+            car_number : '',
             open : false
         })
     }
@@ -49,26 +45,15 @@ class R_Revise extends React.Component{
     }
 
     addCustomer = () => {
-        const url = '/api/reservations';
+        const url = '/api/parkings';
         const formData = new FormData();
-        if(this.state.revise_element === "객실번호"){
-            this.state.revise_element = "room_number";
-        }
-        else if(this.state.revise_element === "숙박인원"){
-            this.state.revise_element = "number_of_members";
-        }
-        else if(this.state.revise_element === "취소여부"){
-            this.state.revise_element = "cancel_status";
-        }
-        formData.append('reserve_number', this.state.reserve_number);
-        formData.append('revise_element', this.state.revise_element);
-        formData.append('revise_value', this.state.revise_value);
+        formData.append('car_number', this.state.car_number);
         const config = {
             headers : {
                 'content-type' : 'multipart/form-data'
             }
         }
-        return patch(url, formData, config);
+        return put(url, formData, config);
 
     }
 
@@ -80,29 +65,24 @@ class R_Revise extends React.Component{
 
     handleClose = () => {
         this.setState({
-            reserve_number : '',
-            revise_element : '',
-            revise_value : '',
+            car_number : '',
             open : false
         })
     }
 
     render(){
-        const { classes } = this.props;
         return (
             <div>
                 <Button variant="contained" color="primary" onClick={this.handleClickOpen}>
-                    예약정보 수정
+                    파크아웃 확인
                 </Button>
                 <Dialog open={this.state.open} onClose={this.handleClose}>
-                    <DialogTitle>정보 수정</DialogTitle>
+                    <DialogTitle>파크아웃</DialogTitle>
                     <DialogContent>
-                        <TextField label="예약번호" input type="text" name="reserve_number" value={this.state.reserve_number} onChange={this.handleValueChange}/><br/>
-                        <TextField label="변경할 속성" input type="text" name="revise_element" value={this.state.revise_element} onChange={this.handleValueChange}/><br/>
-                        <TextField label="변경값" input type="text" name="revise_value" value={this.state.revise_value} onChange={this.handleValueChange}/><br/>
+                        <TextField label="차량번호" input type="text" name="car_number" value={this.state.car_number} onChange={this.handleValueChange}/><br/>
                     </DialogContent>
                     <DialogActions>
-                        <Button variant="contained" color="primary" onClick={this.handleFormSubmit}>수정</Button>
+                        <Button variant="contained" color="primary" onClick={this.handleFormSubmit}>확인</Button>
                         <Button variant="outlined" color="primary" onClick={this.handleClose}>닫기</Button> 
                     </DialogActions>
                 </Dialog>
@@ -111,4 +91,4 @@ class R_Revise extends React.Component{
     }
 }
 
-export default withStyles(styles)(R_Revise);
+export default withStyles(styles)(Parking_Park_out);

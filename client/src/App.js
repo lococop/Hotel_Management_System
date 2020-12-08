@@ -23,10 +23,11 @@ import Facilities from './main/Facilities';
 import Tour from './main/Tour';
 import Restaurants from './main/Restaurants';
 import Room_Introduce from './main/Room_Introduce';
+import {createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles';
 
 const styles = theme => ({
   root : {
-    width : '110%',
+    width : '100%',
     flexGrow: 1,
     minWidth : 1080
   },
@@ -98,6 +99,17 @@ const styles = theme => ({
 
 });
 
+const atheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#757575'
+    },
+    secondary:{
+      main: '#a4a4a4'
+    }
+  },
+});
+
 class App extends Component{
 
   constructor(props){
@@ -124,8 +136,9 @@ class App extends Component{
 
     return (
       <div className={classes.root}>
+        <MuiThemeProvider theme={atheme}>
         <Router>
-        <AppBar position="static">
+        <AppBar color="primary" position="static" >
         <Toolbar>
           <IconButton
             edge="start"
@@ -137,18 +150,13 @@ class App extends Component{
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            호텔 예약관리 시스템
+            배에힘꽉조 호텔
           </Typography>
         </Toolbar>
         <Drawer open={this.state.toggle}>
           <MenuItem onClick={this.handleDrawerToggle}>
             <Link component={RouterLink} to="/">
               홈
-            </Link>
-          </MenuItem>
-          <MenuItem onClick={this.handleDrawerToggle}>
-            <Link component={RouterLink} to="/hotel">
-              호텔 소개
             </Link>
           </MenuItem>
           <MenuItem onClick={this.handleDrawerToggle}>
@@ -169,6 +177,11 @@ class App extends Component{
           <MenuItem onClick={this.handleDrawerToggle}>
             <Link component={RouterLink} to="/restaurants">
               호텔 내 식당
+            </Link>
+          </MenuItem>
+          <MenuItem onClick={this.handleDrawerToggle}>
+            <Link component={RouterLink} to="/reserve_room">
+              예약하기
             </Link>
           </MenuItem>
           <br/>
@@ -207,8 +220,8 @@ class App extends Component{
           </MenuItem>
         </Drawer>
         <div>
-          <Route exact path="/" component={Home}/>
-          <Route exact path="/hotel" component={Hotel}/>
+          <Route exact path="/" component={Hotel}/>
+          <Route exact path="/reserve_room" component={Home}/>
           <Route exact path="/facilites" component={Facilities}/>
           <Route exact path="/room_introduce" component={Room_Introduce}/>
           <Route exact path="/tour" component={Tour}/>
@@ -220,6 +233,7 @@ class App extends Component{
         </div>
         </AppBar>
         </Router>
+        </MuiThemeProvider>
       </div>
     );
   }

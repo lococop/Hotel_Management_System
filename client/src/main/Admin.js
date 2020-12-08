@@ -12,6 +12,9 @@ import Guest from './Guest';
 import Room from './Room';
 import Service from './Service';
 import Facility from './Facility';
+import Parking from './Parking';
+import Item from './Item';
+import Cleanup from './Cleanup';
 
 const roots = {
   root : {
@@ -30,14 +33,14 @@ const styles1 = {
 }
 
 const styles2 = {
-  width : '5%',
-  marginLeft : 120,
+  width : '7%',
+  marginLeft : 150,
   display : 'flex',
   justifyContent : 'center'
 }
 
 const styles = {
-  width : '6.6%',
+  width : '8%',
   //marginBottom : 15,
   display : 'flex',
   justifyContent : 'center'
@@ -61,13 +64,13 @@ function Admin({ user , props}) {
         </Link>
         </div>
         <div style={styles}>
-        <Link to="/staff">
-          <Button variant="contained" color="default">직원 관리</Button>
+        <Link to="/reservation">
+          <Button variant="contained" color="default">예약현황 및 관리</Button>
         </Link>
         </div>
         <div style={styles}>
-        <Link to="/reservation">
-          <Button variant="contained" color="default">예약현황 및 관리</Button>
+        <Link to="/staff">
+          <Button variant="contained" color="default">직원 관리</Button>
         </Link>
         </div>
         <div style={styles}>
@@ -86,22 +89,17 @@ function Admin({ user , props}) {
         </Link>
         </div>
         <div style={styles}>
-        <Link to="/staff">
-          <Button variant="contained" color="default">픽업 관리</Button>
-        </Link>
-        </div>
-        <div style={styles}>
-        <Link to="/staff">
+        <Link to="/parking">
           <Button variant="contained" color="default">주차 관리</Button>
         </Link>
         </div>
         <div style={styles}>
-        <Link to="/staff">
+        <Link to="/item">
           <Button variant="contained" color="default">재고 관리</Button>
         </Link>
         </div>
         <div style={styles}>
-        <Link to="/staff">
+        <Link to="/cleanup">
           <Button variant="contained" color="default">청소 관리</Button>
         </Link>
         </div>
@@ -110,6 +108,9 @@ function Admin({ user , props}) {
     </div>
       <main>
         <Switch>
+          <Route exact path="/cleanup" component={Cleanup} />
+          <Route exact path="/item" component={Item} />
+          <Route exact path="/parking" component={Parking} />
           <Route exact path="/facility" component={Facility} />
           <Route exact path="/service" component={Service} />
           <Route exact path="/room" component={Room} />
