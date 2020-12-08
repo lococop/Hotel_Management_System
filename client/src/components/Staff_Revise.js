@@ -54,7 +54,7 @@ class Staff_Revise extends React.Component{
         if(this.state.revise_element === "부서"){
             this.state.revise_element = "staff_role";
         }
-        else if(this.state.revise_element === "담당구역"){
+        else if(this.state.revise_element === "구역"){
             this.state.revise_element = "staff_area";
         }
         else if(this.state.revise_element === "주소"){

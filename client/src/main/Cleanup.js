@@ -25,7 +25,11 @@ const styles = theme => ({
     minWidth : 1080
   },
   menu : {
+<<<<<<< HEAD
     width : '10%',
+=======
+    width : '8%',
+>>>>>>> 3ba9bf64f545c0c5396e6d06f2ff73145c2bd9a9
     marginTop : 15,
     marginBottom : 15,
     display : 'flex',

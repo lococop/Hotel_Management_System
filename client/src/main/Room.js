@@ -149,7 +149,11 @@ class Room extends Component{
       });
     }
     const { classes } = this.props;
+<<<<<<< HEAD
     const cellList = ["객실번호", "객실 가격", "수용인원", "객실유형", "뷰", "흡연여부", "필요사항"];
+=======
+    const cellList = ["객실번호", "객실 가격", "수용인원", "침대유형", "뷰", "흡연여부", "손상여부"];
+>>>>>>> 3ba9bf64f545c0c5396e6d06f2ff73145c2bd9a9
     return (
         <Card>
         <div className={classes.root}>

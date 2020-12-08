@@ -13,6 +13,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Link, Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import Home_Room from './Home_Room';
+<<<<<<< HEAD
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -24,6 +25,9 @@ const Container = styled.div`
   background: url(https://source.unsplash.com/YMOHw3F1Hdk/1920x1080);
   background-size: cover;
 `;
+=======
+
+>>>>>>> 3ba9bf64f545c0c5396e6d06f2ff73145c2bd9a9
 
 const styles = theme => ({
     hidden : {
@@ -206,8 +210,12 @@ class R_Button extends React.Component{
 
         return (
             <Card  align="center">
+<<<<<<< HEAD
             <Container/>
                 <br/><br/><br/><br/><br/><br/><br/><br/>
+=======
+                <br/><br/><br/>
+>>>>>>> 3ba9bf64f545c0c5396e6d06f2ff73145c2bd9a9
                 <DateRangePicker 
                   startDate={this.state.startDate} 
                   startDateId="your_unique_start_date_id" 
@@ -217,9 +225,15 @@ class R_Button extends React.Component{
                   focusedInput={this.state.focusedInput} 
                   onFocusChange={focusedInput => this.setState({ focusedInput })}/><br/><br/>
                 <Button
+<<<<<<< HEAD
                     variant="contained" 
                     color="primary" 
                     onClick={this.handleClickOpen}>인원수 선택
+=======
+                    variant="outlined" 
+                    color="primary" 
+                    onClick={this.handleClickOpen}>인원수
+>>>>>>> 3ba9bf64f545c0c5396e6d06f2ff73145c2bd9a9
                 </Button>
                 <Dialog 
                     open={this.state.open} 

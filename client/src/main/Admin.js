@@ -33,14 +33,23 @@ const styles1 = {
 }
 
 const styles2 = {
+<<<<<<< HEAD
   width : '7%',
   marginLeft : 150,
+=======
+  width : '5%',
+  marginLeft : 300,
+>>>>>>> 3ba9bf64f545c0c5396e6d06f2ff73145c2bd9a9
   display : 'flex',
   justifyContent : 'center'
 }
 
 const styles = {
+<<<<<<< HEAD
   width : '8%',
+=======
+  width : '7.25%',
+>>>>>>> 3ba9bf64f545c0c5396e6d06f2ff73145c2bd9a9
   //marginBottom : 15,
   display : 'flex',
   justifyContent : 'center'

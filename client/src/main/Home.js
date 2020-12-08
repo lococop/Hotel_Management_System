@@ -69,12 +69,20 @@ class Home extends React.Component{
             <div style={roots}>
             <AppBar style={styles1} position="static" color="secondary">
             <Toolbar >
+<<<<<<< HEAD
                 <Typography flexGrow = "1" display = "none" variant="h6" noWrap className="textColor">
+=======
+                <Typography flexGrow = "1" display = "none" variant="h6" noWrap>
+>>>>>>> 3ba9bf64f545c0c5396e6d06f2ff73145c2bd9a9
                     객실 예약하기
                 </Typography>
                 <div style={styles2}>
                 <Link to="/reserve">
+<<<<<<< HEAD
                 <Button variant="outlined" color="secondary">조건 설정하기</Button>
+=======
+                <Button variant="contained" color="default">조건 설정하기</Button>
+>>>>>>> 3ba9bf64f545c0c5396e6d06f2ff73145c2bd9a9
                 </Link>
                 </div>
                 <div style={styles}>
