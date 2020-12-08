@@ -31,9 +31,9 @@ class Reserve_Button extends React.Component{
     handleFormSubmit = (e) => {
         if(this.state.guest_mail==='' || this.state.guest_name==='' || this.state.payment_info==='' || this.state.guest_phone_number===''){
             alert("개인정보를 모두 입력해주세요.")
+            e.preventDefault()
         }
         else{
-        //e.preventDefault()
         this.addCustomer()
             .then((response) => {
                 console.log(response.data);

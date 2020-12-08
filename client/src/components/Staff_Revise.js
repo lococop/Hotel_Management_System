@@ -51,10 +51,10 @@ class Staff_Revise extends React.Component{
     addCustomer = () => {
         const url = '/api/staffs';
         const formData = new FormData();
-        if(this.state.revise_element === "담당부서"){
+        if(this.state.revise_element === "부서"){
             this.state.revise_element = "staff_role";
         }
-        else if(this.state.revise_element === "담당구역"){
+        else if(this.state.revise_element === "구역"){
             this.state.revise_element = "staff_area";
         }
         else if(this.state.revise_element === "직원 주소"){
